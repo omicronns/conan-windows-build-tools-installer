@@ -18,6 +18,7 @@ class ConanFileInst(conans.ConanFile):
     ]}
     default_options = "version=2.8-201611221915"
     build_policy = "missing"
+    exports = "7z.exe"
 
     def build(self):
         arch_id = {
@@ -31,7 +32,7 @@ class ConanFileInst(conans.ConanFile):
         subprocess.check_call("7z.exe x file.exe -oout".split())
 
     def package(self):
-        self.copy("*", dst="", src="out")
+        self.copy("bin/*", dst="", src="out")
 
     def package_info(self):
         if not self.package_folder is None:
