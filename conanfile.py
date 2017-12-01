@@ -11,12 +11,14 @@ class ConanFileInst(conans.ConanFile):
     url = "https://https://github.com/omicronns/conan-windows-build-tools-installer.git"
     settings = {"os": ["Windows"], "arch": ["x86", "x86_64"]}
 
-    options = {"version": [
+    options = {
+    "no_sh": [True, False],
+    "version": [
         "2.8-201611221915",
         "2.7-201610281058",
         "2.6-201507152002",
     ]}
-    default_options = "version=2.8-201611221915"
+    default_options = "version=2.8-201611221915", "no_sh=False"
     build_policy = "missing"
     exports = "7z.exe"
 
@@ -32,7 +34,10 @@ class ConanFileInst(conans.ConanFile):
         subprocess.check_call("7z.exe x file.exe -oout".split())
 
     def package(self):
-        self.copy("bin/*", dst="", src="out")
+        if self.options.no_sh:
+            self.copy("bin/*", dst="", src="out", excludes="*sh.exe")
+        else:
+            self.copy("bin/*", dst="", src="out")
 
     def package_info(self):
         if not self.package_folder is None:
