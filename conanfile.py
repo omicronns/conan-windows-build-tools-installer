@@ -6,7 +6,7 @@ import subprocess
 class ConanFileInst(conans.ConanFile):
     name = "windows-build-tools_installer"
     description = "creates windows-build-tools binaries package"
-    version = "0.1"
+    version = "0.2"
     license = "MIT"
     url = "https://https://github.com/omicronns/conan-windows-build-tools-installer.git"
     settings = {"os": ["Windows"], "arch": ["x86", "x86_64"]}
@@ -20,7 +20,7 @@ class ConanFileInst(conans.ConanFile):
     ]}
     default_options = "version=2.8-201611221915", "no_sh=False"
     build_policy = "missing"
-    exports = "7z.exe"
+    exports = "7z.exe", "*.dll"
 
     def build(self):
         arch_id = {
